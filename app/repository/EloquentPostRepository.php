@@ -5,11 +5,6 @@ use Post;
 
 class EloquentPostRepository implements PostRepositoryInterface
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function all()
     {
         return Post::all();
@@ -20,15 +15,14 @@ class EloquentPostRepository implements PostRepositoryInterface
         return Post::find($id);
     }
 
-    public function create()
+    public function create(array $data)
     {
-        $data = [
-            "title"     => $this->request->get("title"),
-            "description"  => $this->request->get("description"),
-        ];
-
-        //var_dump($data);
-
-        return Post::create(array('title'=>'test', 'description' => 'description', 'user_id'=>1));
+        return Post::create(
+            [
+                'title'         => $data['title'],
+                'description'   => $data['description'],
+                'user_id'       => $data['userId']
+            ]
+        );
     }
 }

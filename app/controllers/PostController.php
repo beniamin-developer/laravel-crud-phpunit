@@ -31,7 +31,7 @@ class PostController extends \BaseController {
 	 */
 	public function create()
 	{
-//var_dump(Input::all());
+        return View::make('posts.create');
 	}
 
 
@@ -42,7 +42,9 @@ class PostController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        $request = Input::all();
+        $this->repository->create($request);
+		//var_dump($request);exit;
 	}
 
 
