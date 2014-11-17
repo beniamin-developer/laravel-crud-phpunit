@@ -1,19 +1,14 @@
 <?php
-
-use Repository\PostRepositoryInterface;
-use Repository\PostValidatorInterface;
 use Illuminate\Support\Facades\Response;
-
+use App\Repository\PostRepositoryInterface;
 class PostController extends \BaseController {
 
     public function __construct(
         PostRepositoryInterface $repository,
-        PostValidatorInterface $validator,
         Response $response
     )
     {
         $this->repository = $repository;
-        $this->validator = $validator;
         $this->response = $response;
     }
 	/**
@@ -23,7 +18,9 @@ class PostController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$post = $this->repository->all();
+
+		return View::make('posts.index')->with('posts', $post);
 	}
 
 
@@ -34,7 +31,7 @@ class PostController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+//var_dump(Input::all());
 	}
 
 

@@ -1,31 +1,31 @@
 <?php
 
-namespace Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 class PostServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
+    //protected $defer = true;
 
     public function register()
     {
         $this->app->bind(
-            "PostRepositoryInterface",
-            "PostPostRepository"
+            "App\\Repository\\PostRepositoryInterface",
+            "App\\Repository\\EloquentPostRepository"
         );
 
-        $this->app->bind(
-            "PostValidatorInterface",
-            "PostValidator"
-        );
+//        $this->app->bind(
+//            "PostValidatorInterface",
+//            "PostValidator"
+//        );
     }
 
-    public function provides()
-    {
-        return [
-            "PostRepositoryInterface",
-            "PostValidatorInterface",
-        ];
-    }
+//    public function provides()
+//    {
+//        return [
+//            "PostRepositoryInterface",
+//            "PostValidatorInterface",
+//        ];
+//    }
 }
