@@ -58,34 +58,21 @@ class PostRepositoryTest extends TestCase
         $this->assertArrayHasKey('description', $create, 'Expected find post key array [description] exist');
     }
 
-    public function testFind()
+    public function testMostPopular()
     {
-        //$postRepository = new PostRepository();
+        $mock = Mockery::mock('App\\Repository\\EloquentPostRepository');
+
+        $mock->shouldReceive('getMostPopular')
+            ->once()
+            ->andReturn('foo');
+
+        $this->app->instance('App\\Repository\\EloquentPostRepository', $mock);
+
+        $response = $this->call('GET', 'posts/show');
+
+        $view = $response->getOriginalContent();
+
+        $this->assertTrue($response->isOk());
+        $this->assertEquals('foo', $view['users']);
     }
-
-//  public function testIsValid()
-//  {
-//    $post = new Post();
-//    $post->title = "test";
-//    $post->description = "test";
-//
-//    $this->assertTrue($post->validate(), 'Expected validation to pass.');
-//  }
-
-//  public function testIsInvalid()
-//  {
-//    $post = new Post();
-//
-//    $this->assertFalse($post->validate(), 'Expected validation to fail');
-//  }
-
-//  public function testAll()
-//  {
-//    $mock = Mockery::mock('PostRepository');
-//
-//    $mock->shouldReceive('all')->once();
-//    $this->call('GET', 'posts');
-//
-//    $this->assertResponseOk();
-//  }
 }

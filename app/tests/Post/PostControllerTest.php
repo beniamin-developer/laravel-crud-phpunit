@@ -27,4 +27,13 @@ class PostControllerTest extends TestCase {
 
         $this->assertTrue($this->client->getResponse()->isOk());
     }
+
+    public function testIsValid()
+    {
+        $post = new Post();
+        $post->title = "test";
+        $post->description = "test";
+
+        $this->assertTrue($post->validate(), 'Expected validation to pass.');
+    }
 }

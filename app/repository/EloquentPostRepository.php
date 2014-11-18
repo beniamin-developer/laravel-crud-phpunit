@@ -25,4 +25,9 @@ class EloquentPostRepository implements PostRepositoryInterface
             ]
         );
     }
+
+    public function getMostPopular()
+    {
+        return array('test');
+    }
 }
