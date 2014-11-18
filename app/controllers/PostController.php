@@ -54,9 +54,12 @@ class PostController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show()
+	public function show($id)
 	{
-		return View::make('posts.show')->with('users', $this->repository->getMostPopular());
+        $post = $this->repository->find($id);
+
+        return View::make('posts.show')->with('post', $post);
+		//return View::make('posts.show')->with('users', $this->repository->getMostPopular());
 	}
 
 

@@ -21,6 +21,70 @@ class PostRepositoryTest extends TestCase
         Mockery::close();
     }
 
+    public function testAll()
+    {
+        $data = array(
+            'posts' => array(
+                array(
+                    "title" => "title 1",
+                    "user" => array(
+                        "email" => "arosa.developer@gmail.com"
+                    )
+                ),
+                array(
+                    "title" => "title 2",
+                    "user" => array(
+                        "email" => "arosa.developer@gmail.com"
+                    )
+                )
+            )
+        );
+
+        $mock = Mockery::mock('App\\Repository\\PostRepositoryInterface');
+
+        $mock->shouldReceive('all')
+            ->once()
+            ->andReturnValues($data);
+
+        $this->app->instance('App\\Repository\\PostRepositoryInterface', $mock);
+
+        $response = $this->call('GET', 'posts');
+
+        $view = $response->getOriginalContent();
+
+        $this->assertEquals(2, count($view['posts']));
+        $this->assertContains("title 1", $view['posts'][0]['title']);
+        $this->assertContains("title 2", $view['posts'][1]['title']);
+    }
+
+    public function testFindById()
+    {
+        $data = array(
+            "title" => "Title 1",
+            "description" => "Description",
+            "user" => array(
+                "email" => "arosa.developer@gmail.com"
+            )
+        );
+
+        $mock = Mockery::mock('App\\Repository\\PostRepositoryInterface');
+
+        $mock->shouldReceive('find')
+            ->with('1')
+            ->once()
+            ->andReturn($data);
+
+        $this->app->instance("App\\Repository\\PostRepositoryInterface", $mock);
+
+        $response = $this->call('GET', 'posts/1');
+
+        $view = $response->getOriginalContent();
+
+        $this->assertContains("Title 1", $view['post']['title']);
+        $this->assertContains("Description", $view['post']['description']);
+        $this->assertContains("arosa.developer@gmail.com", $view['post']['user']['email']);
+    }
+
     public function testCreate()
     {
         $findUser = \DB::table('users')->where('first_name', 'beniamin')->first();
@@ -30,49 +94,10 @@ class PostRepositoryTest extends TestCase
             'description'   => 'First description for post',
             'userId'        => $findUser->id
         ]);
-//
-//        $mock = Mockery::mock('App\\Repository\\EloquentPostRepository');
-//        $mock->shouldReceive('create')
-//            ->with($input);
-//
-//        $this->app->instance('App\\Repository\\EloquentPostRepository', $mock);
-//        $mock->create($input);
-//
-//        $this->call('POST', 'posts', ['title' => 'First post', 'description' => 'First description for post']);
-//        $this->assertResponseOk();
-
 
         $postRepository = new PostRepository();
         $create = $postRepository->create(Input::all());
 
         $this->assertEquals(1, count($create), 'Expected create post is count 1');
-    }
-
-    public function testFindById()
-    {
-        $postRepository = new PostRepository();
-        $create = $postRepository->find(1);
-
-        $this->assertNotEmpty($create, 'Expected find post is count 1');
-        $this->assertArrayHasKey('title', $create, 'Expected find post key array [title] exist');
-        $this->assertArrayHasKey('description', $create, 'Expected find post key array [description] exist');
-    }
-
-    public function testMostPopular()
-    {
-        $mock = Mockery::mock('App\\Repository\\EloquentPostRepository');
-
-        $mock->shouldReceive('getMostPopular')
-            ->once()
-            ->andReturn('foo');
-
-        $this->app->instance('App\\Repository\\EloquentPostRepository', $mock);
-
-        $response = $this->call('GET', 'posts/show');
-
-        $view = $response->getOriginalContent();
-
-        $this->assertTrue($response->isOk());
-        $this->assertEquals('foo', $view['users']);
     }
 }

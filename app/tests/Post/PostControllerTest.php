@@ -9,7 +9,7 @@ class PostControllerTest extends TestCase {
      */
     public function testIndexAction()
     {
-        $crawler = $this->client->request('GET', '/');
+        $crawler = $this->client->request('GET', 'posts');
 
         $this->assertTrue($this->client->getResponse()->isOk());
     }
@@ -28,7 +28,7 @@ class PostControllerTest extends TestCase {
         $this->assertTrue($this->client->getResponse()->isOk());
     }
 
-    public function testIsValid()
+    public function testIsValidationPost()
     {
         $post = new Post();
         $post->title = "test";
