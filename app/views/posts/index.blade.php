@@ -1,3 +1,6 @@
+@extends('layouts.main')
+
+@section('content')
 <h1>Show all posts</h1>
 
 <table>
@@ -18,3 +21,4 @@
         @endforeach
     </tbody>
 </table>
+@stop

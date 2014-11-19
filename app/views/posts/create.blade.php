@@ -1,14 +1,6 @@
-<!-- app/views/nerds/create.blade.php -->
+@extends('layouts.main')
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Look! I'm CRUDding</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
-
+@section('content')
 <h1>Create a Post</h1>
 
 <!-- if there are creation errors, they will show here -->
@@ -31,7 +23,4 @@
     {{ Form::submit('Create new post', array('class' => 'btn btn-primary')) }}
 
 {{ Form::close() }}
-
-</div>
-</body>
-</html>
+@stop
