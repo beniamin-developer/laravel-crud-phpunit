@@ -16,6 +16,8 @@
 
 {{ Form::open(array('url' => 'posts')) }}
 
+    {{ Form::hidden('userId', 1)  }}
+
     <div class="form-group">
         {{ Form::label('Title', 'Title') }}
         {{ Form::text('title', Input::old('title'), array('class' => 'form-control')) }}

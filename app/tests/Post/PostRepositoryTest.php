@@ -87,17 +87,19 @@ class PostRepositoryTest extends TestCase
 
     public function testCreate()
     {
-        $findUser = \DB::table('users')->where('first_name', 'beniamin')->first();
+        Input::replace($input = ['title' => '', 'description' => 'description']);
 
-        Input::replace($input = [
-            'title'         => 'First post',
-            'description'   => 'First description for post',
-            'userId'        => $findUser->id
-        ]);
+        $mock = Mockery::mock("App\\Repository\\PostRepositoryInterface");
 
-        $postRepository = new PostRepository();
-        $create = $postRepository->create(Input::all());
+        $mock->shouldReceive('create')
+            ->once();
 
-        $this->assertEquals(1, count($create), 'Expected create post is count 1');
+        $this->app->instance("App\\Repository\\PostRepositoryInterface", $mock);
+
+        $response = $this->call('POST', 'posts');
+
+        $view = $response->getOriginalContent();
+
+        var_dump($view);
     }
 }
