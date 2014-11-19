@@ -26,12 +26,14 @@ class PostRepositoryTest extends TestCase
         $data = array(
             'posts' => array(
                 array(
+                    "id" => "1",
                     "title" => "title 1",
                     "user" => array(
                         "email" => "arosa.developer@gmail.com"
                     )
                 ),
                 array(
+                    "id" => "2",
                     "title" => "title 2",
                     "user" => array(
                         "email" => "arosa.developer@gmail.com"
