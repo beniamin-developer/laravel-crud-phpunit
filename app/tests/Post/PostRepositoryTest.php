@@ -89,19 +89,19 @@ class PostRepositoryTest extends TestCase
 
     public function testCreate()
     {
-        Input::replace($input = ['title' => '', 'description' => 'description']);
-
-        $mock = Mockery::mock("App\\Repository\\PostRepositoryInterface");
+        Input::replace($input = ['title' => 'tt', 'description' => 'description']);
+        $input = ['title' => 'tt', 'description' => 'description'];
+        $mock = Mockery::mock("App\\Repository\\EloquentPostRepository");
 
         $mock->shouldReceive('create')
-            ->once();
+            ->with($input)
+            ->once()
+            ->andReturn($input);
 
-        $this->app->instance("App\\Repository\\PostRepositoryInterface", $mock);
+        $this->app->instance("App\\Repository\\EloquentPostRepository", $mock);
 
-        $response = $this->call('POST', 'posts');
+        $this->call('POST', 'posts');
 
-        $view = $response->getOriginalContent();
-
-        var_dump($view);
+        $this->assertRedirectedToRoute('posts.index');
     }
 }

@@ -42,17 +42,17 @@ class PostController extends \BaseController {
 	 */
 	public function store()
 	{
-        $request = Input::all();
+        $input = Input::all();
 
-        $validate = Validator::make($request, ['title' => 'required', 'description' => 'required']);
+        $validate = Validator::make($input, ['title' => 'required', 'description' => 'required']);
 
         if($validate->fails()) {
-            return Redirect::route('post.create')
+            return Redirect::route('posts.create')
                 ->withInput()
-                ->witchErrors($validate->messages());
+                ->withErrors($validate->messages());
         }
 
-        $this->repository->create($request);
+        $this->repository->create($input);
 
         return Redirect::route('posts.index')
             ->with('flash', 'Post is save');

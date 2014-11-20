@@ -18,11 +18,7 @@ class EloquentPostRepository implements PostRepositoryInterface
     public function create(array $data)
     {
         return Post::create(
-            [
-                'title'         => $data['title'],
-                'description'   => $data['description'],
-                'user_id'       => $data['userId']
-            ]
+            $data
         );
     }
 
